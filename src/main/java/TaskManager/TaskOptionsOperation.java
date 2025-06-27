@@ -3,17 +3,22 @@ package TaskManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.management.Descriptor;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import static TaskManager.Main.FILE_NAME;
 
 public class TaskOptionsOperation {
+    static Path path = Paths.get(FILE_NAME);
+
     public static String[][] addTask(String[][] tasks) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String[] newTask = {"Description", "DueDate", "Importance"};
@@ -27,11 +32,7 @@ public class TaskOptionsOperation {
         tasks[tasks.length - 1] = newTask;
         System.out.println("Task " + (tasks.length) + " added");
 
-        for (int i = 0; i < tasks.length; i++) {
-        System.out.println((i + 1) + ". " + String.join(", ", tasks[i]));
-        }
-        Path path = Paths.get(FILE_NAME);
-        String newLine = String.join(";", newTask) + System.lineSeparator();
+        String newLine = String.join(", ", newTask) + System.lineSeparator();
         Files.writeString(path, newLine, StandardOpenOption.APPEND);
         return tasks;
     }
@@ -49,25 +50,24 @@ public class TaskOptionsOperation {
             return tasks;
         }
         System.out.println("Task " + (taskNumber + 1) + " removed");
-        return ArrayUtils.remove(tasks, taskNumber);
+        String[][] updatedTasks = ArrayUtils.remove(tasks, taskNumber);
+
+        try (FileWriter fileWriter = new FileWriter(FILE_NAME, false)) {
+            for (String[] row : updatedTasks) {
+                fileWriter.write(String.join(";", row));
+                fileWriter.write("\n");
+                }
+            }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return updatedTasks;
     }
 
-    public static String [][] listTasks (String [][] tasks) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the task number you would like to list");
-        if (ArrayUtils.isEmpty(tasks)) {
-            System.out.println("There are no tasks to list.");
-            return tasks;
+
         }
-        if (tasks.length > tasks.length) {
-            System.out.println("There is no task with number " + tasks.length);
-        }
-        return (tasks);
-    }
 
-
-
-}
 
 
 

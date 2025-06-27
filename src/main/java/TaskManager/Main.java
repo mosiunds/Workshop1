@@ -28,24 +28,31 @@ public class Main {
         }
         printOptions(OPTIONS);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the option you choose: ");
+        System.out.println("\nEnter the option you choose: ");
         String option = scanner.nextLine();
+
+        while (!option.equals("exit")) {
         if (option.equals("add")) {
             tasks = addTask(tasks);
-
+            tasks = loadDataToTab(FILE_NAME);
        }
        else if (option.equals("remove")) {
-           tasks = removeTask(tasks,0);
-//        } else if (option.equals("list")) {
-//            listTasks(tasks);
-//        }
-//        else {
-//            System.out.println("Invalid option");
-//        }
-//    }
-//
+            tasks = removeTask(tasks, 0);
+            tasks = loadDataToTab(FILE_NAME);
 
+       } else if (option.equals("list")) {
+           tasks = loadDataToTab(FILE_NAME);
 
+       }
+        else {
+           System.out.println("Invalid option");
         }
+
+            printOptions(OPTIONS);
+            System.out.println("\nEnter the option you choose: ");
+            option = scanner.nextLine();
+        }
+        System.out.println("\nExiting program. Goodbye!");
+        scanner.close();
     }
 }
