@@ -1,6 +1,7 @@
 package TaskManager;
 
 import org.jetbrains.annotations.*;
+import pl.coderslab.ConsoleColors;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,8 +34,8 @@ public static void printOptions(String @NotNull [] tab) {
     System.out.println(pl.coderslab.ConsoleColors.BLUE);
     System.out.println("Please choose one of the following options: " + pl.coderslab.ConsoleColors.RESET);
     for (String option : tab) {
-        System.out.print(option + " ");
-
+        System.out.print(ConsoleColors.WHITE_BOLD);
+        System.out.print(option + " " + ConsoleColors.RESET);
     }
 }
 }

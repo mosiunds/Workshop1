@@ -1,5 +1,7 @@
 package TaskManager;
 
+import pl.coderslab.ConsoleColors;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,8 +11,7 @@ import java.util.Scanner;
 
 import static TaskManager.TaskManagerOperation.loadDataToTab;
 import static TaskManager.TaskManagerOperation.printOptions;
-import static TaskManager.TaskOptionsOperation.addTask;
-import static TaskManager.TaskOptionsOperation.removeTask;
+import static TaskManager.TaskOptionsOperation.*;
 
 
 public class Main {
@@ -23,12 +24,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         tasks = loadDataToTab(FILE_NAME);
         if (tasks == null) {
-            System.out.println("No file found");
+            System.out.println(pl.coderslab.ConsoleColors.RED);
+            System.out.println("No file found" + pl.coderslab.ConsoleColors.RESET);
             return;
         }
         printOptions(OPTIONS);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\nEnter the option you choose: ");
+
+        System.out.println("\nEnter the option you choose: " + pl.coderslab.ConsoleColors.RESET);
         String option = scanner.nextLine();
 
         while (!option.equals("exit")) {
@@ -37,8 +40,8 @@ public class Main {
             tasks = loadDataToTab(FILE_NAME);
        }
        else if (option.equals("remove")) {
-            tasks = removeTask(tasks, 0);
-            tasks = loadDataToTab(FILE_NAME);
+            tasks = removeTask(tasks, scanner);
+
 
        } else if (option.equals("list")) {
            tasks = loadDataToTab(FILE_NAME);
@@ -49,10 +52,10 @@ public class Main {
         }
 
             printOptions(OPTIONS);
-            System.out.println("\nEnter the option you choose: ");
+            System.out.println(ConsoleColors.YELLOW);
+            System.out.println("\nEnter the option you choose: " + pl.coderslab.ConsoleColors.RESET);
             option = scanner.nextLine();
         }
-        System.out.println("\nExiting program. Goodbye!");
-        scanner.close();
+        exitProgram();
     }
 }
